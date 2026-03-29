@@ -2,30 +2,45 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pickle
 
+# Initialize app
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Allow frontend (Vercel) to access backend
 
-# Load model + vectorizer
-model = pickle.load(open("model.pkl", "rb"))
-vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+# Load model and vectorizer
+try:
+    model = pickle.load(open("model.pkl", "rb"))
+    vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
+except Exception as e:
+    print("Error loading model:", e)
 
+# Home route
 @app.route("/")
 def home():
-    return "Spam Detector Backend Running 🚀"
+    return "Spam Detector Backend Running"
 
+# Prediction route
 @app.route("/check", methods=["POST"])
 def check_spam():
-    text = request.json["text"]
+    try:
+        data = request.get_json()
+        text = data.get("text", "")
 
-    # Convert text → numbers
-    vect = vectorizer.transform([text])
+        if text.strip() == "":
+            return jsonify({"result": "Empty input"}), 400
 
-    # Predict
-    prediction = model.predict(vect)[0]
+        # Transform input
+        vector = vectorizer.transform([text])
 
-    result = "Spam" if prediction == 1 else "Not Spam"
+        # Predict
+        prediction = model.predict(vector)[0]
 
-    return jsonify({"result": result})
+        result = "Spam" if prediction == 1 else "Not Spam"
 
+        return jsonify({"result": result})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Run server
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
