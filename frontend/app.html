@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam Detector App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>Mail</h2>
+        <button onclick="showCompose()">Compose</button>
+        <button onclick="showInbox()">Inbox</button>
+        <button onclick="showSpam()">Spam</button>
+        <button onclick="showHistory()">History</button>
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+            <span id="user"></span>
+        </div>
+
+        <!-- Compose -->
+        <div id="composeSection">
+            <h3>Compose Email</h3>
+            <textarea id="text" placeholder="Write your email"></textarea>
+            <button onclick="sendEmail()">Check Spam</button>
+        </div>
+
+        <!-- Inbox -->
+        <div id="inboxSection" class="hidden">
+            <h3>Inbox</h3>
+            <div id="inboxList"></div>
+        </div>
+
+        <!-- Spam -->
+        <div id="spamSection" class="hidden">
+            <h3>Spam</h3>
+            <div id="spamList"></div>
+        </div>
+
+        <!-- History -->
+        <div id="historySection" class="hidden">
+            <h3>Email History</h3>
+            <div id="historyList"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
