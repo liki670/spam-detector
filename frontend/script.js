@@ -35,7 +35,7 @@ function toggle(sectionId) {
 async function sendEmail() {
     let text = document.getElementById("text").value;
 
-    let res = await fetch("http://127.0.0.1:5000/check", {
+    let res = await fetch("http://10.18.8.162:5000", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
