@@ -35,7 +35,7 @@ function toggle(sectionId) {
 async function sendEmail() {
     let text = document.getElementById("text").value;
 
-    let res = await fetch("https://spam-backend-x32p.onrender.com", {
+    let res = await fetch("https://spam-backend-x32p.onrender.com/check", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
